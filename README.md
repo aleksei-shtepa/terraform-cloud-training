@@ -1,17 +1,18 @@
-# Учебный Terraform-проект
+# Terraform-проект создания корзины объектного хранилища, iam-роли и пользователя
 
-1. В уже созданный `aws_instance` добавьте зависимость типа инстанса от вокспейса, что бы в разных ворскспейсах использовались разные `instance_type`.
-1. Добавим `count`. Для `stage` должен создаться один экземпляр `ec2`, а для `prod` два. 
-1. Создайте рядом еще один `aws_instance`, но теперь определите их количество при помощи `for_each`, а не `count`.
-1. Что бы при изменении типа инстанса не возникло ситуации, когда не будет ни одного инстанса добавьте параметр жизненного цикла `create_before_destroy = true` в один из рессурсов `aws_instance`.
+Проект является подготовительным для применения в других проектах использующих s3-backend.
 
 ## Зависимости
 
-Terraform backend размещается в Yandex Object Storage. Для получения корзины и ключей доступа к ней используется проект [../terraform_local/](../terraform_local/)
+Должен быть установлен Yandex Disk CLI и настроен биллинговый аккаунт:
 
-Описание Узла (instance) оформлено в виде модуля [instance](../modules/instance/).
-
-В файле проекта **main.tf**, в разделе **backend** необходимо заполнить данные для доступа к корзине Yandex Object Storage. Их нужно брать из файлов `../terraform_local/access_key`, `../terraform_local/secret_key` и `../terraform_local/bucket`.
+```bash
+ ~/w/n/d/v/0/0/terraform_s3 ❯ yc config list
+token: xxxxxxxxxxxx
+cloud-id: xxxxxxxxxxxx
+folder-id: xxxxxxxxxxxx
+compute-default-zone: xxxxxxxxxxxx
+```
 
 ## Сборка
 
