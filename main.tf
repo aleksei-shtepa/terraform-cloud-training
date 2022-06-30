@@ -5,19 +5,6 @@ provider "yandex" {
   zone      = var.yc_region
 }
 
-terraform {
-  backend "s3" {
-    endpoint   = "storage.yandexcloud.net"
-    key        = "terraform-07/basic-03.tfstate"
-    skip_region_validation      = true
-    skip_credentials_validation = true
-
-    bucket     = "xxx"
-    access_key = "yyy"
-    secret_key = "zzz"
-  } 
-}
-
 module "vpc" {
   source  = "hamnsk/vpc/yandex"
   version = "0.5.0"
@@ -30,7 +17,7 @@ module "vpc" {
 
 
 module "instance_count" {
-  source = "../modules/instance"
+  source = "./modules/instance"
   instance_count = local.instance_count[terraform.workspace]
 
   subnet_id     = module.vpc.subnet_ids[0]
@@ -53,7 +40,7 @@ module "instance_count" {
 }
 
 module "instance_for_each" {
-  source = "../modules/instance"
+  source = "./modules/instance"
 
   for_each = local.nodes_name
 
